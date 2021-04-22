@@ -32,13 +32,13 @@ function mlua.run(rockspec, no_install)
         return nil, "Lua version " .. lua_version .. " is not supported"
     end
 
-    local envs = {}
+    local cmd, cmd_sep = {}, " "
     local lua_incdir, lua_h = variables.LUA_INCDIR, "lua.h"
     local found_lua_h = fs.exists(dir.path(lua_incdir, lua_h))
     if not cfg.is_platform("windows") then
         -- If lua.h does not exists, add "vendored" feature (probably this is impossible case)
         if found_lua_h then
-            envs["LUA_INC"] = variables.LUA_INCDIR
+            table.insert(cmd, "LUA_INC=" .. variables.LUA_INCDIR)
         else
             table.insert(features, "vendored")
         end
@@ -51,13 +51,14 @@ function mlua.run(rockspec, no_install)
         local lualib = variables.LUALIB
         lualib = string.gsub(lualib, "%.lib$", "")
         lualib = string.gsub(lualib, "%.dll$", "")
-        envs["LUA_INC"] = variables.LUA_INCDIR
-        envs["LUA_LIB"] = variables.LUA_LIBDIR
-        envs["LUA_LIB_NAME"] = lualib
+        table.insert(cmd, "SET LUA_INC=" .. variables.LUA_INCDIR)
+        table.insert(cmd, "SET LUA_LIB=" .. variables.LUA_LIBDIR)
+        table.insert(cmd, "SET LUA_LIB_NAME=" .. lualib)
+        cmd_sep = "&&"
     end
 
-    local features_arg = table.concat(features, ",")
-    if not fs.execute_env(envs, "cargo build --release --features " .. features_arg) then
+    table.insert(cmd, "cargo build --release --features " .. table.concat(features, ","))
+    if not fs.execute(table.concat(cmd, cmd_sep)) then
         return nil, "Failed building."
     end
 
