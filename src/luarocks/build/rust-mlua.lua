@@ -57,7 +57,7 @@ function mlua.run(rockspec, no_install)
         cmd_sep = "&&"
     end
 
-    table.insert(cmd, "cargo build --release --features " .. table.concat(features, ","))
+    table.insert(cmd, "CARGO_TARGET_DIR=. cargo build --release --features " .. table.concat(features, ","))
     if not fs.execute(table.concat(cmd, cmd_sep)) then
         return nil, "Failed building."
     end
