@@ -71,7 +71,8 @@ function mlua.run(rockspec, no_install)
             if cfg.is_platform("windows") then
                 rustlib = mod .. "." .. cfg.external_lib_extension
             end
-            local src = dir.path("target", "release", rustlib)
+            local target_path = rockspec.build.target_path or "target"
+            local src = dir.path(target_path, "release", rustlib)
             local dst = dir.path(libdir, mod .. "." .. cfg.lib_extension)
 
             local ok, err = fs.copy(src, dst, "exec")
