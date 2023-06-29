@@ -66,8 +66,13 @@ function mlua.run(rockspec, no_install)
         local libdir = path.lib_dir(rockspec.name, rockspec.version)
 
         fs.make_dir(dir.dir_name(libdir))
-        for _, mod in ipairs(rockspec.build.modules) do
-            local rustlib = "lib" .. mod .. "." .. cfg.external_lib_extension
+        for mod, rustlib_name in pairs(rockspec.build.modules) do
+            -- If `mod` is a number, then it's an array entry
+            if type(mod) == "number" then
+                mod = rustlib_name
+            end
+
+            local rustlib = "lib" .. rustlib_name .. "." .. cfg.external_lib_extension
             if cfg.is_platform("windows") then
                 rustlib = mod .. "." .. cfg.external_lib_extension
             end
