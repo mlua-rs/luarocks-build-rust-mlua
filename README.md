@@ -39,5 +39,10 @@ build = {
 
     -- Optional: target_path if cargo "target" directory not in the module root
     target_path = "path/to/cargo/target/directory"
+
+    -- Optional: if set to `false` pass `--no-default-features` to cargo
+    default_features = false,
+    -- Optional: pass additional features
+    features = {"extra_feature"}
 }
 ```

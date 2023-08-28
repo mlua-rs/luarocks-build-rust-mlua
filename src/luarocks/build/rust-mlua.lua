@@ -29,8 +29,21 @@ function mlua.run(rockspec, no_install)
         return nil, "Lua version " .. lua_version .. " is not supported"
     end
 
-    local cmd = "cargo build --release --features " .. table.concat(features, ",")
-    if not fs.execute(cmd) then
+    local cmd = {"cargo build --release"}
+    -- Check if default features not required
+    if rockspec.build and rockspec.build.default_features == false then
+        table.insert(cmd, "--no-default-features")
+    end
+    -- Add additional features
+    if rockspec.build and type(rockspec.build.features) == "table" then
+        for _, feature in ipairs(rockspec.build.features) do
+            table.insert(features, feature)
+        end
+    end
+    table.insert(cmd, "--features")
+    table.insert(cmd, table.concat(features, ","))
+
+    if not fs.execute(table.concat(cmd, " ")) then
         return nil, "Failed building."
     end
 
