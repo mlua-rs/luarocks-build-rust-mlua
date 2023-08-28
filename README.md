@@ -30,6 +30,7 @@ dependencies = {
 
 build = {
     type = "rust-mlua",
+
     modules = {
         -- Native library expected in `<target_path>/release/libmy_module.so` (linux; uses right name on macos/windows)
         "my_module",
@@ -42,7 +43,8 @@ build = {
 
     -- Optional: if set to `false` pass `--no-default-features` to cargo
     default_features = false,
+
     -- Optional: pass additional features
-    features = {"extra_feature"}
+    features = {"extra", "features"}
 }
 ```
