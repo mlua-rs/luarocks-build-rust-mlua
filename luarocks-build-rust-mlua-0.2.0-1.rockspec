@@ -1,10 +1,10 @@
 rockspec_format = "3.0"
 package = "luarocks-build-rust-mlua"
-version = "0.1.2-1"
+version = "0.2.0-1"
 
 source = {
     url = "git+https://github.com/khvzak/luarocks-build-rust-mlua",
-    tag = "0.1.2",
+    tag = "0.2.0",
 }
 
 description = {
