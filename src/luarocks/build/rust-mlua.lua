@@ -2,6 +2,7 @@ local fs = require("luarocks.fs")
 local cfg = require("luarocks.core.cfg")
 local dir = require("luarocks.dir")
 local path = require("luarocks.path")
+local util = require("luarocks.util")
 
 local mlua = {}
 
@@ -24,7 +25,11 @@ function mlua.run(rockspec, no_install)
     elseif lua_version == "5.2" then
         table.insert(features, "lua52")
     elseif lua_version == "5.1" then
-        table.insert(features, "lua51")
+        if util.get_luajit_version() ~= nil then
+            table.insert(features, "luajit")
+        else
+            table.insert(features, "lua51")
+        end
     else
         return nil, "Lua version " .. lua_version .. " is not supported"
     end
