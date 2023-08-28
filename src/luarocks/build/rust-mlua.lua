@@ -15,12 +15,9 @@ function mlua.run(rockspec, no_install)
 
     local features = {}
     local lua_version = cfg.lua_version
-    local variables = rockspec.variables
 
     -- Activate features depending on Lua version
-    if (cfg.cache or {}).luajit_version ~= nil then
-        table.insert(features, "luajit")
-    elseif lua_version == "5.4" then
+    if lua_version == "5.4" then
         table.insert(features, "lua54")
     elseif lua_version == "5.3" then
         table.insert(features, "lua53")
@@ -32,33 +29,8 @@ function mlua.run(rockspec, no_install)
         return nil, "Lua version " .. lua_version .. " is not supported"
     end
 
-    local cmd, cmd_sep = {}, " "
-    local lua_incdir, lua_h = variables.LUA_INCDIR, "lua.h"
-    local found_lua_h = fs.exists(dir.path(lua_incdir, lua_h))
-    if not cfg.is_platform("windows") then
-        -- If lua.h does not exists, add "vendored" feature (probably this is impossible case)
-        if found_lua_h then
-            table.insert(cmd, "LUA_INC=" .. variables.LUA_INCDIR)
-        else
-            table.insert(features, "vendored")
-        end
-    else
-        -- For windows we must ensure that lua.h exists
-        if not found_lua_h then
-            return nil, "Lua header file " .. lua_h .. " not found (looked in " .. lua_incdir .. "). \n" ..
-                "You need to install the Lua development package for your system."
-        end
-        local lualib = variables.LUALIB
-        lualib = string.gsub(lualib, "%.lib$", "")
-        lualib = string.gsub(lualib, "%.dll$", "")
-        table.insert(cmd, "SET LUA_INC=" .. variables.LUA_INCDIR)
-        table.insert(cmd, "SET LUA_LIB=" .. variables.LUA_LIBDIR)
-        table.insert(cmd, "SET LUA_LIB_NAME=" .. lualib)
-        cmd_sep = "&&"
-    end
-
-    table.insert(cmd, "cargo build --release --features " .. table.concat(features, ","))
-    if not fs.execute(table.concat(cmd, cmd_sep)) then
+    local cmd = "cargo build --release --features " .. table.concat(features, ",")
+    if not fs.execute(cmd) then
         return nil, "Failed building."
     end
 
