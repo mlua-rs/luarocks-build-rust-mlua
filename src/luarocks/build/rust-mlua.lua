@@ -30,14 +30,18 @@ function mlua.run(rockspec, no_install)
     end
 
     local cmd = {"cargo build --release"}
-    -- Check if default features not required
-    if rockspec.build and rockspec.build.default_features == false then
-        table.insert(cmd, "--no-default-features")
-    end
-    -- Add additional features
-    if rockspec.build and type(rockspec.build.features) == "table" then
-        for _, feature in ipairs(rockspec.build.features) do
-            table.insert(features, feature)
+    if rockspec.build then
+        -- Check if default features not required
+        if rockspec.build.default_features == false then
+            table.insert(cmd, "--no-default-features")
+        end
+        -- Add additional features
+        if type(rockspec.build.features) == "table" then
+            for _, feature in ipairs(rockspec.build.features) do
+                table.insert(features, feature)
+            end
+        elseif type(rockspec.build.features) == "string" then
+            table.insert(features, rockspec.build.features)
         end
     end
     table.insert(cmd, "--features")
