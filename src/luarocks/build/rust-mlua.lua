@@ -35,6 +35,10 @@ function mlua.run(rockspec, no_install)
     end
 
     local cmd = {"cargo build --release"}
+
+    local target_path = rockspec.build and rockspec.build.target_path or "target"
+    table.insert(cmd, "--target=" .. fs.Q(target_path))
+
     if rockspec.build then
         -- Check if default features not required
         if rockspec.build.default_features == false then
@@ -70,7 +74,7 @@ function mlua.run(rockspec, no_install)
             if cfg.is_platform("windows") then
                 rustlib = mod .. "." .. cfg.external_lib_extension
             end
-            local target_path = rockspec.build.target_path or "target"
+
             local src = dir.path(target_path, "release", rustlib)
             local dst = dir.path(libdir, mod .. "." .. cfg.lib_extension)
 
