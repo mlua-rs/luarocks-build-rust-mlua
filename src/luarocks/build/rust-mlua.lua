@@ -25,7 +25,8 @@ function mlua.run(rockspec, no_install)
     elseif lua_version == "5.2" then
         table.insert(features, "lua52")
     elseif lua_version == "5.1" then
-        if util.get_luajit_version and util.get_luajit_version() ~= nil then
+        -- cfg.luajit_version exists in 3.1.x but not 3.9.x
+        if (util.get_luajit_version and util.get_luajit_version() ~= nil) or cfg.luajit_version then
             table.insert(features, "luajit")
         else
             table.insert(features, "lua51")
