@@ -38,7 +38,7 @@ function mlua.run(rockspec, no_install)
     local cmd = {"cargo build --release"}
 
     local target_path = rockspec.build and rockspec.build.target_path or "target"
-    table.insert(cmd, "--target=" .. fs.Q(target_path))
+    table.insert(cmd, "--target-dir=" .. fs.Q(target_path))
 
     if rockspec.build then
         -- Check if default features not required
