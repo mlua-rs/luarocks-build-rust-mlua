@@ -85,7 +85,7 @@ function mlua.run(rockspec, no_install)
             end
         end
 
-        local cwd = dir.dir_name(rockspec.local_abs_filename)
+        local cwd = dir.path(dir.dir_name(rockspec.local_abs_filename), rockspec.name)
         local luadir = path.lua_dir(rockspec.name, rockspec.version)
 
         fs.make_dir(dir.dir_name(luadir))
