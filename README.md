@@ -44,6 +44,12 @@ build = {
     -- Optional: if set to `false` pass `--no-default-features` to cargo
     default_features = false,
 
+    -- Optional: copy additional files to lua dir, can specify source path
+    include = {
+        "file.lua",
+        ["path/to/another/file.lua"] = "another-file.lua",
+    },
+
     -- Optional: pass additional features
     features = {"extra", "features"}
 }
