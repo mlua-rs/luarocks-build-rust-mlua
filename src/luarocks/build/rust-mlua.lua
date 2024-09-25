@@ -89,9 +89,9 @@ function mlua.run(rockspec, no_install)
         local luadir = path.lua_dir(rockspec.name, rockspec.version)
 
         fs.make_dir(dir.dir_name(luadir))
-        for to, from in pairs(rockspec.build.include) do
-            if type(to) == "number" then
-                to = from
+        for from, to in pairs(rockspec.build.include) do
+            if type(from) == "number" then
+                from = to
             end
             to = dir.path(luadir, to)
             local ok, err = fs.copy(dir.path(cwd, from), to, "exec")
