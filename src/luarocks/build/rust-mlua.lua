@@ -85,18 +85,20 @@ function mlua.run(rockspec, no_install)
             end
         end
 
-        local cwd = dir.path(dir.dir_name(rockspec.local_abs_filename), rockspec.name)
-        local luadir = path.lua_dir(rockspec.name, rockspec.version)
+        if rockspec.build.include then
+            local cwd = dir.path(dir.dir_name(rockspec.local_abs_filename), rockspec.name)
+            local luadir = path.lua_dir(rockspec.name, rockspec.version)
 
-        fs.make_dir(dir.dir_name(luadir))
-        for from, to in pairs(rockspec.build.include) do
-            if type(from) == "number" then
-                from = to
-            end
-            to = dir.path(luadir, to)
-            local ok, err = fs.copy(dir.path(cwd, from), to, "exec")
-            if not ok then
-                return nil, "Failed copying " .. from .. " in " .. to .. ": " .. err
+            fs.make_dir(dir.dir_name(luadir))
+            for from, to in pairs(rockspec.build.include) do
+                if type(from) == "number" then
+                    from = to
+                end
+                to = dir.path(luadir, to)
+                local ok, err = fs.copy(dir.path(cwd, from), to, "exec")
+                if not ok then
+                    return nil, "Failed copying " .. from .. " in " .. to .. ": " .. err
+                end
             end
         end
     end
