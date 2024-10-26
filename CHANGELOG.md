@@ -1,3 +1,8 @@
+## v0.2.3
+
+- Add option to include lua files
+- Set `LUA_ROCKSPEC_PACKAGE`/`LUA_ROCKSPEC_VERSION` environment variables during build
+
 ## v0.2.2
 
 - Pass correct `target-dir` arg to cargo instead of `target` (mlua-rs/luarocks-build-rust-mlua#12)
