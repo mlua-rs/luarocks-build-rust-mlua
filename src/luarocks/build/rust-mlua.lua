@@ -35,6 +35,11 @@ function mlua.run(rockspec, no_install)
         return nil, "Lua version " .. lua_version .. " is not supported"
     end
 
+    local envs = {}
+    for _, key in ipairs({ "package", "version" }) do
+        envs[("LUA_ROCKSPEC_%s"):format(key:upper())] = fs.Q(rockspec[key])
+    end
+
     local cmd = {"cargo build --release"}
 
     local target_path = rockspec.build and rockspec.build.target_path or "target"
@@ -57,7 +62,7 @@ function mlua.run(rockspec, no_install)
     table.insert(cmd, "--features")
     table.insert(cmd, table.concat(features, ","))
 
-    if not fs.execute(table.concat(cmd, " ")) then
+    if not fs.execute_env(envs, table.concat(cmd, " ")) then
         return nil, "Failed building."
     end
 
