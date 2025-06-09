@@ -32,9 +32,12 @@ build = {
     type = "rust-mlua",
 
     modules = {
-        -- Native library expected in `<target_path>/release/libmy_module.so` (linux; uses right name on macos/windows)
+        -- Native library expected
+        -- in `<target_path>/release/libmy_module.so` (os-dependent)
+        ["my_module"] = "my_module",
         "my_module",
-        -- More complex case, native library expected in `<target_path>/release/libalt_name.so`
+        -- More complex case,
+        -- native library expected in `<target_path>/release/libalt_name.so`
         ["my_module"] = "alt_name",
     },
 
