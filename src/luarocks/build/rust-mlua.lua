@@ -7,8 +7,6 @@ local util = require("luarocks.util")
 local mlua = {}
 
 function mlua.run(rockspec, no_install)
-    assert(rockspec:type() == "rockspec")
-
     if not fs.is_tool_available("cargo", "Cargo") then
         return nil, "'cargo' is not installed.\n" .. "This rock is written in Rust: make sure you have a Rust\n" ..
             "development environment installed and try again."
