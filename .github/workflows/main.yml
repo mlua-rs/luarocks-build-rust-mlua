@@ -4,19 +4,30 @@ on: [push, pull_request]
 jobs:
   build:
     name: Build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-24.04]
-        lua: [lua54]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
       - uses: dtolnay/rust-toolchain@stable
-      - name: Install ${{ matrix.lua }} module
+      - name: Install module
         run: |
           sudo apt update
           sudo apt install -y git curl luarocks lua5.4 liblua5.4-dev
           luarocks-5.4 --local install luarocks-build-rust-mlua-dev-1.rockspec
           cargo -V
           luarocks-5.4 --local install lua-ryaml
-        shell: bash
+
+  build_luarocks_3_12:
+    name: Build with luarocks 3.12
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install module using luarocks 3.12
+        run: |
+          sudo apt update
+          sudo apt install -y git curl lua5.4 liblua5.4-dev
+          curl -L https://luarocks.github.io/luarocks/releases/luarocks-3.12.0.tar.gz | tar xz
+          (cd luarocks-3.12.0 && ./configure && sudo make install)
+          luarocks --local install luarocks-build-rust-mlua-dev-1.rockspec
+          cargo -V
+          luarocks --local install lua-ryaml
