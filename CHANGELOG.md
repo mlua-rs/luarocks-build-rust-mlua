@@ -1,3 +1,7 @@
+## v0.2.4
+
+- Luarocks 3.12 compatibility
+
 ## v0.2.3
 
 - Add option to include lua files
