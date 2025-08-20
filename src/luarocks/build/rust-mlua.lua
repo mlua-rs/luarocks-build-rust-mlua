@@ -40,6 +40,10 @@ function mlua.run(rockspec, no_install)
 
     local cmd = {"cargo build --release"}
 
+    for _, extra_arg in ipairs(rockspec.build.cargo_extra_args or {}) do
+        table.insert(cmd, extra_arg)
+    end
+
     local target_path = rockspec.build and rockspec.build.target_path or "target"
     table.insert(cmd, "--target-dir=" .. fs.Q(target_path))
 
