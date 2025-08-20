@@ -47,6 +47,9 @@ build = {
     -- Optional: if set to `false` pass `--no-default-features` to cargo
     default_features = false,
 
+    -- Optional: additional flags to be passed in the cargo invocation
+    cargo_extra_args = {"--package, foo", "--locked"},
+
     -- Optional: copy additional files to lua dir, can specify source path
     include = {
         "file.lua",
