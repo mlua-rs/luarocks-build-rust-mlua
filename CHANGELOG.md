@@ -1,3 +1,7 @@
+## v0.2.5
+
+- Support `cargo_extra_args` option to pass additional flags to cargo
+
 ## v0.2.4
 
 - Luarocks 3.12 compatibility
