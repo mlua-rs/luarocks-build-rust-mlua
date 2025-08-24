@@ -26,8 +26,8 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y git curl lua5.4 liblua5.4-dev
-          curl -L https://luarocks.github.io/luarocks/releases/luarocks-3.12.0.tar.gz | tar xz
-          (cd luarocks-3.12.0 && ./configure && sudo make install)
+          curl -L https://luarocks.github.io/luarocks/releases/luarocks-3.12.2.tar.gz | tar xz
+          (cd luarocks-3.12.2 && ./configure && sudo make install)
           luarocks --local install luarocks-build-rust-mlua-dev-1.rockspec
           cargo -V
           luarocks --local install lua-ryaml
