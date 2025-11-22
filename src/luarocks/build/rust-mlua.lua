@@ -80,7 +80,7 @@ function mlua.run(rockspec, no_install)
 
             local rustlib = "lib" .. rustlib_name .. "." .. cfg.external_lib_extension
             if cfg.is_platform("windows") then
-                rustlib = mod .. "." .. cfg.external_lib_extension
+                rustlib = rustlib_name .. "." .. cfg.external_lib_extension
             end
 
             local src = dir.path(target_path, "release", rustlib)
