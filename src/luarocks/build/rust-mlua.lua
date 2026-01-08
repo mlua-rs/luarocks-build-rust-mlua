@@ -16,7 +16,9 @@ function mlua.run(rockspec, no_install)
     local lua_version = cfg.lua_version
 
     -- Activate features depending on Lua version
-    if lua_version == "5.4" then
+    if lua_version == "5.5" then
+        table.insert(features, "lua55")
+    elseif lua_version == "5.4" then
         table.insert(features, "lua54")
     elseif lua_version == "5.3" then
         table.insert(features, "lua53")
