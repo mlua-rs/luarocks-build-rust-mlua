@@ -73,6 +73,9 @@ function mlua.run(rockspec, no_install)
 
         fs.make_dir(dir.dir_name(libdir))
         for mod, rustlib_name in pairs(rockspec.build.modules) do
+            -- Make loop variable mutable in Lua 5.5
+            local mod
+
             -- If `mod` is a number, then it's an array entry
             if type(mod) == "number" then
                 mod = rustlib_name
