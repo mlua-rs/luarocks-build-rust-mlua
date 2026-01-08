@@ -16,7 +16,9 @@ function mlua.run(rockspec, no_install)
     local lua_version = cfg.lua_version
 
     -- Activate features depending on Lua version
-    if lua_version == "5.4" then
+    if lua_version == "5.5" then
+        table.insert(features, "lua55")
+    elseif lua_version == "5.4" then
         table.insert(features, "lua54")
     elseif lua_version == "5.3" then
         table.insert(features, "lua53")
@@ -73,6 +75,9 @@ function mlua.run(rockspec, no_install)
 
         fs.make_dir(dir.dir_name(libdir))
         for mod, rustlib_name in pairs(rockspec.build.modules) do
+            -- Make loop variable mutable in Lua 5.5
+            local mod
+
             -- If `mod` is a number, then it's an array entry
             if type(mod) == "number" then
                 mod = rustlib_name
