@@ -1,3 +1,7 @@
+## v0.2.7
+
+- Added Lua 5.5 support
+
 ## v0.2.5
 
 - Support `cargo_extra_args` option to pass additional flags to cargo
